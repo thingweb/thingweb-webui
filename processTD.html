@@ -26,6 +26,7 @@ body {
 
 <h2>@TODO Discover TD</h2>
 <h2>@TODO Currently mockup only</h2>
+<h2>@TODO use a design lib (e.g. <a href="https://material.angularjs.org/latest/">Angular-Material</a>, <a href="http://try.buildwinjs.com/">WinJS</a> or <a href="http://ionicframework.com/">Ionic</a> )</h2>
 
 <ul ng-repeat="thing in things">
 	<li>{{thing.name}}: {{thing.uri}}<br/>
@@ -33,10 +34,12 @@ body {
 		<ul ng-repeat="action in thing.actions">
 			<li>Action {{action.name}} ({{action.xsdParamType}} -> {{xsd}})</li>
 		</ul><br/>
-		Properties:
+		Properties: [<a href="#" ng-click="tclient.updateState(thing)">update All</a>]
 		<ul ng-repeat="property in thing.properties">
 			<li>Property {{property.name}}: {{property.xsdType}}
 					{{property.writable ? "(writable)" : "(read-only)"}}
+					{{property.value}}
+					[<a href="#" ng-click="tclient.readProperty(thing,property)">update</a>]
 			</li>
 		</ul>
 </ul>
