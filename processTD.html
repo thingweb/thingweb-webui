@@ -4,7 +4,6 @@
 <title>ThingClient</title>
 </head>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-
 <style>
 body {
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
@@ -25,24 +24,30 @@ body {
 
 
 <h2>@TODO Discover TD</h2>
-<h2>@TODO Currently mockup only</h2>
+<h2>@TODO add actions and subscriptions (or auto-poll)</h2>
 <h2>@TODO use a design lib (e.g. <a href="https://material.angularjs.org/latest/">Angular-Material</a>, <a href="http://try.buildwinjs.com/">WinJS</a> or <a href="http://ionicframework.com/">Ionic</a> )</h2>
 
-<ul ng-repeat="thing in things">
-	<li>{{thing.name}}: {{thing.uri}}<br/>
+<div ng-repeat="error in errors">
+	<p style="color:red">{{error}}</p>
+</div>
+<button ng-click="errors=[]" ng-show="errors.length > 0">Clear errors</button>
+
+<div ng-repeat="thing in things">
+	<h2>{{thing.name}}: {{thing.uri}}</h2>
 		Actions:
 		<ul ng-repeat="action in thing.actions">
-			<li>Action {{action.name}} ({{action.xsdParamType}} -> {{xsd}})</li>
+			<li>Action {{action.name}} ({{action.xsdParamType}} -> {{action.xsdResultType}})</li>
 		</ul><br/>
-		Properties: [<a href="#" ng-click="tclient.updateState(thing)">update All</a>]
+		Properties: <button ng-click="tclient.updateState(thing)">update All</button>
 		<ul ng-repeat="property in thing.properties">
 			<li>Property {{property.name}}: {{property.xsdType}}
 					{{property.writable ? "(writable)" : "(read-only)"}}
-					{{property.value}}
-					[<a href="#" ng-click="tclient.readProperty(thing,property)">update</a>]
+					<input type="text" ng-model="property.value" ngReadOnly="property.writable"/>
+					<button ng-click="tclient.readProperty(thing,property)">update</button>
+					<button ng-click="tclient.writeProperty(thing,property)" ng-show="property.writable">set</button>
 			</li>
 		</ul>
-</ul>
+</div>
 
 <h2>Debug Area - to be removed</h2>
 <pre>
