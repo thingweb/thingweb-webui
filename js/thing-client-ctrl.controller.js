@@ -5,8 +5,8 @@ angular.module("wot").controller('ThingClientCtrl',
 
     $scope.things = [];
 
-    ThingClientCtrl.addThingFromFile = function addThingFromFile(file) {
-       TdParser.fromFile(file,$scope).then(ThingClientCtrl.addThing);
+    ThingClientCtrl.addThingFromUrl = function addThingFromUrl(url) {
+       TdParser.fromUrl(url).then(ThingClientCtrl.addThing);
      }
 
      ThingClientCtrl.addThingFromJson = function addThingFromJson(json) {

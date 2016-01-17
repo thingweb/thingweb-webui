@@ -14,9 +14,16 @@ body {
 <body ng-controller="ThingClientCtrl as tclient">
 <p style="font-size:x-small"><a href="index.html">Home</a> | <span style="color: Gray;">Process TD</span> </p>
 
+<h1>Thing description</h1>
+
+<h2>From File:</h2>
 <input type="file" file-loader ng-model="pickedFile" file-loaded="tclient.addThingFromJson(pickedFile)" id="jsonInput" style="background-color:LightGoldenRodYellow;" />
 
-<h1>Thing description</h1>
+<h2>From URL</h2>
+<input type="text" ng-model="url" size="80" aria-label="URL" />
+<button id="fetchbtn" ng-click="tclient.addThingFromUrl(url)">fetch</button><br>
+
+
 <h2>@TODO Discover TD</h2>
 <h2>@TODO Currently mockup only</h2>
 

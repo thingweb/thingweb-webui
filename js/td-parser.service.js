@@ -41,7 +41,7 @@ angular.module("wot").factory('TdParser',['$http',
     }
 
     TdParser.fromUrl = function fromUrl(url) {
-      //to be done
+      return $http.get(url).then(function(res) { return res.data}).then(createThing)
     }
 
     TdParser.parseJson = function parseJson(json) {
