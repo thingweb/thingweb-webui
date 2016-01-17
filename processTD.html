@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="wot">
 <head>
 <title>ThingClient</title>
 </head>
@@ -11,59 +11,43 @@ body {
 	font-size: 62.5%;
 }
 </style>
-<body>
+<body ng-controller="ThingClientCtrl as tclient">
 <p style="font-size:x-small"><a href="index.html">Home</a> | <span style="color: Gray;">Process TD</span> </p>
 
-<input type="file" id="jsonInput" style="background-color:LightGoldenRodYellow;" />
-<!--<label for="jsonInput">Choose or drag a JSON file</label>-->
-<button type="button" onclick="javascript:readJSONFile()">Parse &amp; process JSON </button>
-<br /><br />
-<!-- br />
-<button type="button" onclick="javascript:processTD()">Process thing desription from textarea</button>-->
+<input type="file" file-loader ng-model="pickedFile" file-loaded="tclient.addThingFromJson(pickedFile)" id="jsonInput" style="background-color:LightGoldenRodYellow;" />
 
 <h1>Thing description</h1>
 <h2>@TODO Discover TD</h2>
 <h2>@TODO Currently mockup only</h2>
 
-<textarea id="tdJSON" name="tdJSON" style="width:90%; height:250px;"  ></textarea>
-<br />
+<ul ng-repeat="thing in things">
+	<li>{{thing.name}}: {{thing.uri}}<br/>
+		Actions:
+		<ul ng-repeat="action in thing.actions">
+			<li>Action {{action.name}} ({{action.xsdParamType}} -> {{xsd}})</li>
+		</ul><br/>
+		Properties:
+		<ul ng-repeat="property in thing.properties">
+			<li>Property {{property.name}}: {{property.xsdType}}
+					{{property.writable ? "(writable)" : "(read-only)"}}
+			</li>
+		</ul>
+</ul>
 
-<!--<div id="thingContainer"> </div>-->
-<div id="tabs">
-  <ul>
-    <li><a href="#tabs1">HowTo</a></li>
-  </ul>
-  <div id="tabs1">
-    <p>Add new thing descriptions by loading TD JSON-LD files ....</p>
-  </div>
-</div>
+<h2>Debug Area - to be removed</h2>
+<pre>
+	{{ things | json }}
+</pre>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<script>
-$(document).ready(function() {
-	$("div#tabs").tabs();
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
 
-	// parse URL parameters
-	function gup( name, url ) {
-	  if (!url) url = location.href;
-	  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-	  var regexS = "[\\?&]"+name+"=([^&#]*)";
-	  var regex = new RegExp( regexS );
-	  var results = regex.exec( url );
-	  return results == null ? null : results[1];
-	};
-	// show debugging textarea
-	if (gup('showTextArea', null)) {
-		// show it
-	} else {
-		// make it invisible
-		tdJSON.style.visibility='hidden';
-		tdJSON.style.display = 'none'; // hide
-	}
-});
-</script>
-<script src="js/jq-processtd.js"></script>
+<!-- in the future, these scripts get concatenated to angular-wot.js -->
+<script src="js/wot.module.js"></script>
+<script src="js/td-parser.service.js"></script>
+<script src="js/file-loader.directive.js"></script>
+<script src="js/thing-client-ctrl.controller.js"></script>
 
 </body>
 </html>
