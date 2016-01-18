@@ -1,320 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="wot">
 <head>
 <title>ThingClient</title>
 </head>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-<script>
-$(document).ready(function() {
-	$("div#tabs").tabs();
-
-	/*
-	$("button#add-tab").click(function() {
-
-		var num_tabs = $("div#tabs ul li").length + 1;
-
-		$("div#tabs ul").append(
-			"<li><a href='#tab" + num_tabs + "'>#" + num_tabs + "</a></li>"
-		);
-$("div#tabs").append(
-			"<div id='tab" + num_tabs + "'>#" + num_tabs + "</div>"
-		);
-		$("div#tabs").tabs("refresh");
-	});
-	*/
-});
-// parse URL parameters
-function gup( name, url ) {
-  if (!url) url = location.href;
-  name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-  var regexS = "[\\?&]"+name+"=([^&#]*)";
-  var regex = new RegExp( regexS );
-  var results = regex.exec( url );
-  return results == null ? null : results[1];
-}
-</script>
-
 <style>
 body {
 	font-family: "Trebuchet MS", "Helvetica", "Arial",  "Verdana", "sans-serif";
 	font-size: 62.5%;
 }
 </style>
-<body>
+<body ng-controller="ThingClientCtrl as tclient">
 <p style="font-size:x-small"><a href="index.html">Home</a> | <span style="color: Gray;">Process TD</span> </p>
 
-
-<script>
-function processTD(name) {
-	var json = document.getElementById('tdJSON').value;
-	var td = JSON.parse(json);
-	
-	// add jquery UI tab
-	var num_tabs = $("div#tabs ul li").length + 1;
-	$("div#tabs ul").append(
-		"<li><a href='#tab" + num_tabs + "'>" + name + "</a></li>"
-	);
-	var c = document.createElement("div");
-	c.id="tab" + num_tabs;
-	$("div#tabs").append(
-		c
-		// "<div id='tab" + num_tabs + "'>#" + num_tabs + "</div>"
-	);
-	$("div#tabs").tabs("refresh");
-	var index = $('#tabs ul').index($('#tab' + num_tabs));
-	$("#tabs").tabs("option", "active", index);
-	
-	
-	// append information to tab	
-	var interactions = td.interactions; // is array
-	
-	{
-		var hp = document.createElement('h1');
-		var tp = document.createTextNode(td.metadata.name);
-		hp.appendChild(tp);
-		c.appendChild(hp);
-		// TODO add protocol & encoding
-	
-		var table = document.createElement('table');
-		
-		// ==============
-		// Property
-		
-		var thP = document.createElement('th');
-		var tdHP = document.createElement('td');
-		tdHP.appendChild(document.createTextNode("Properties"));
-		tdHP.colspan = 4;
-		thP.appendChild(tdHP);
-		table.appendChild(thP);
-		
-		var isProperties = false;
-			
-		for (var i=0; i < interactions.length; i++){
-			var interaction = interactions[i];
-
-			// Property
-			if(interaction["@type"] == "Property") {
-				isProperties = true;
-				var tr = document.createElement('tr'); 
-			
-				tr.appendChild(document.createTextNode(interaction.name));
-				// text input
-				var t = document.createElement("input");
-				t.type = "text";
-				t.readonly = interaction.writable;
-				var td1 = document.createElement('td');
-				td1.appendChild(t);
-				tr.appendChild(td1);
-				
-				// GET Button
-				var bGet = document.createElement("button");
-				bGet.type = "button";
-				bGet.value = interaction.name;
-				bGet.appendChild(document.createTextNode("GET"));
-				//bGet.onclick = funcName;
-				bGet.onclick = function(){
-					alert("call GET for " + this.value);
-				};
-				//c.appendChild(bGet);
-				var td2 = document.createElement('td');
-				td2.appendChild(bGet);
-				tr.appendChild(td2);
-				
-				// PUT Button
-				if(interaction.writable) {
-					var bPut = document.createElement("button");
-					bPut.type = "button";
-					bPut.value = interaction.name;
-					bPut.appendChild(document.createTextNode("PUT"));
-					bPut.onclick = function(){
-						alert("call PUT for " + this.value);
-					};
-					// c.appendChild(bPut);
-					var td3 = document.createElement('td');
-					td3.appendChild(bPut);
-					tr.appendChild(td3);
-				}
-				
-				// TODO Observe
-				table.appendChild(tr);
-				
-			}
-		}
-		if(!isProperties) {
-			var tr = document.createElement('tr'); 
-			tr.appendChild(document.createTextNode("-- none --"));
-			table.appendChild(tr);
-		}
-		
-		
-		// ==============
-		// Action
-		
-		var thA = document.createElement('th');
-		var tdHA = document.createElement('td');
-		tdHA.appendChild(document.createTextNode("Actions"));
-		tdHA.colspan = 4;
-		thA.appendChild(tdHA);
-		table.appendChild(thA);
-		
-		var isActions = false;
-		
-		for (var i=0; i < interactions.length; i++){
-			var interaction = interactions[i];
-			
-			// Action
-			if(interaction["@type"] == "Action") {
-				isActions = true;
-				var tr = document.createElement('tr'); 
-			
-				tr.appendChild(document.createTextNode(interaction.name));
-				// text input
-				var t = document.createElement("input");
-				t.type = "text";
-				t.readonly = interaction.writable;
-				var td1 = document.createElement('td');
-				td1.appendChild(t);
-				tr.appendChild(td1);
-				
-				// Action Button
-				var bGet = document.createElement("button");
-				bGet.type = "button";
-				bGet.value = interaction.name;
-				bGet.appendChild(document.createTextNode("Start"));
-				//bGet.onclick = funcName;
-				bGet.onclick = function(){
-					alert("start Action for " + this.value);
-				};
-				var td2 = document.createElement('td');
-				td2.appendChild(bGet);
-				tr.appendChild(td2);
-				
-				table.appendChild(tr);
-				
-			}
-		}
-		
-		if(!isActions) {
-			var tr = document.createElement('tr'); 
-			tr.appendChild(document.createTextNode("-- none --"));
-			table.appendChild(tr);
-		}
-		
-				
-		// ==============
-		// Events
-		
-		var thE = document.createElement('th');
-		var tdHE = document.createElement('td');
-		tdHE.appendChild(document.createTextNode("Events (TODO)"));
-		tdHE.colspan = 4;
-		thE.appendChild(tdHE);
-		table.appendChild(thE);
-		
-		var isEvents = false;
-		
-		for (var i=0; i < interactions.length; i++){
-			var interaction = interactions[i];
-			
-			// Action
-			if(interaction["@type"] == "Event") {
-				isEvents = true;
-				var tr = document.createElement('tr'); 
-			
-				tr.appendChild(document.createTextNode(interaction.name));
-				// text input
-				var t = document.createElement("input");
-				t.type = "text";
-				t.readonly = interaction.writable;
-				var td1 = document.createElement('td');
-				td1.appendChild(t);
-				tr.appendChild(td1);
-				
-				table.appendChild(tr);
-				
-			}
-		}
-		
-		if(!isEvents) {
-			var tr = document.createElement('tr'); 
-			tr.appendChild(document.createTextNode("-- none --"));
-			table.appendChild(tr);
-		}
-		
-		
-		c.appendChild(table);
-	}
-
-	
-	c.appendChild(document.createElement("br"));
-	c.appendChild(document.createTextNode("Processed TD at " + new Date().toLocaleTimeString()));
-}
-
-function readJSONFile() {
-	var file = document.getElementById('jsonInput').files[0];
-	if(file == null || file === undefined) {
-		alert("No JSON File selected");
-		return;
-	}
-	var reader = new FileReader();
-	
-	reader.onload = function(event) {
-		var buffer = event.target.result;
-		document.getElementById('tdJSON').value = buffer;
-		
-		processTD(file.name);
-	};
-
-	reader.onerror = function(event) {
-		var msg = "File could not be read! Code " + event.target.error.code;
-		console.error(msg);
-		alert(msg);
-	};
-	
-	reader.readAsText(file);
-}
-</script> 
-
-
 <h1>Thing description</h1>
+
+<h2>From File:</h2>
+<input type="file" file-loader ng-model="pickedFile" file-loaded="tclient.addThingFromJson(pickedFile)" id="jsonInput" style="background-color:LightGoldenRodYellow;" />
+
+<h2>From URL</h2>
+<input type="text" ng-model="url" size="80" aria-label="URL" />
+<button id="fetchbtn" ng-click="tclient.addThingFromUrl(url)">fetch</button><br>
+
+
 <h2>@TODO Discover TD</h2>
-<h2>@TODO Currently mockup only</h2>
+<h2>@TODO add actions and subscriptions (or auto-poll)</h2>
+<h2>@TODO use a design lib (e.g. <a href="https://material.angularjs.org/latest/">Angular-Material</a>, <a href="http://try.buildwinjs.com/">WinJS</a> or <a href="http://ionicframework.com/">Ionic</a> )</h2>
 
-<textarea id="tdJSON" name="tdJSON" style="width:90%; height:250px;"  ></textarea>
-<br />
-<script>
-// show debugging textarea
-if (gup('showTextArea', null)) {
-	// show it
-} else {
-	// make it invisible
-	tdJSON.style.visibility='hidden';
-	tdJSON.style.display = 'none'; // hide
-}
-</script>
-
-<input type="file" id="jsonInput" style="background-color:LightGoldenRodYellow;" />
-<!--<label for="jsonInput">Choose or drag a JSON file</label>-->
-<button type="button" onclick="javascript:readJSONFile()">Parse &amp; process JSON </button>
-<br /><br />
-<!-- br />
-<button type="button" onclick="javascript:processTD()">Process thing desription from textarea</button>-->
-
- 
-<!--<div id="thingContainer"> </div>-->
-
-<div id="tabs">
-  <ul>
-    <li><a href="#tabs1">HowTo</a></li>
-  </ul>
-  <div id="tabs1">
-    <p>Add new thing descriptions by loading TD JSON-LD files ....</p>
-  </div>
+<div ng-repeat="error in errors">
+	<p style="color:red">{{error}}</p>
 </div>
- 
+<button ng-click="errors=[]" ng-show="errors.length > 0">Clear errors</button>
+
+<div ng-repeat="thing in things">
+	<h2>{{thing.name}}: {{thing.uri}}</h2>
+		Actions:
+		<ul ng-repeat="action in thing.actions">
+			<li>Action {{action.name}} ({{action.xsdParamType}} -> {{action.xsdResultType}})</li>
+		</ul><br/>
+		Properties: <button ng-click="tclient.updateState(thing)">update All</button>
+		<ul ng-repeat="property in thing.properties">
+			<li>Property {{property.name}}: {{property.xsdType}}
+					{{property.writable ? "(writable)" : "(read-only)"}}
+					<input type="text" ng-model="property.value" ngReadOnly="property.writable"/>
+					<button ng-click="tclient.readProperty(thing,property)">update</button>
+					<button ng-click="tclient.writeProperty(thing,property)" ng-show="property.writable">set</button>
+			</li>
+		</ul>
+</div>
+
+<h2>Debug Area - to be removed</h2>
+<pre>
+	{{ things | json }}
+</pre>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.0/angular.min.js"></script>
+
+<!-- in the future, these scripts get concatenated to angular-wot.js -->
+<script src="js/wot.module.js"></script>
+<script src="js/td-parser.service.js"></script>
+<script src="js/file-loader.directive.js"></script>
+<script src="js/thing-client-ctrl.controller.js"></script>
 
 </body>
-</html> 
+</html>
