@@ -36,7 +36,10 @@ body {
 	<h2>{{thing.name}}: {{thing.uri}}</h2>
 		Actions:
 		<ul ng-repeat="action in thing.actions">
-			<li>Action {{action.name}} ({{action.xsdParamType}} -> {{action.xsdResultType}})</li>
+			<li>Action {{action.name}} ({{action.xsdParamType}} -> {{action.xsdResultType}})
+				<input type="text" ng-model="action.paramValue" />
+				<button ng-click="tclient.callAction(thing,action,paramValue)">Execute</button>
+			</li>
 		</ul><br/>
 		Properties: <button ng-click="tclient.updateState(thing)">update All</button>
 		<ul ng-repeat="property in thing.properties">
