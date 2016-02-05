@@ -19,7 +19,7 @@ body {
 <input type="file" file-loader ng-model="pickedFile" file-loaded="tclient.addThingFromJson(pickedFile)" id="jsonInput" style="background-color:LightGoldenRodYellow;" />
 
 <h2>From URL</h2>
-<input type="text" ng-model="url" size="80" aria-label="URL" />
+<input type="url" ng-model="url" size="80" aria-label="URL" />
 <button id="fetchbtn" ng-click="tclient.addThingFromUrl(url)">fetch</button><br>
 
 
@@ -36,13 +36,18 @@ body {
 	<h2>{{thing.name}}: {{thing.uri}}</h2>
 		Actions:
 		<ul ng-repeat="action in thing.actions">
-			<li>Action {{action.name}} ({{action.xsdParamType}} -> {{action.xsdResultType}})</li>
+			<li>Action {{action.name}} ({{action.xsdParamType}} -> {{action.xsdResultType}})
+				<input ng-show="action.xsdParamType" ng-model="param" />
+				<button ng-click="tclient.callAction(thing, action, param)">call</button>
+			</li>
 		</ul><br/>
 		Properties: <button ng-click="tclient.updateState(thing)">update All</button>
 		<ul ng-repeat="property in thing.properties">
 			<li>Property {{property.name}}: {{property.xsdType}}
 					{{property.writable ? "(writable)" : "(read-only)"}}
-					<input type="text" ng-model="property.value" ngReadOnly="property.writable"/>
+					<input type="number" ng-model="property.value" ng-readonly="!property.writable" ng-show="property.isNumeric()"/>
+					<input type="text" ng-model="property.value" ng-readonly="!property.writable" ng-show="property.xsdType === 'xsd:string'"/>
+					<input type="checkbox" ng-model="property.value" ng-readonly="!property.writable" ng-show="property.xsdType === 'xsd:boolean'"/>
 					<button ng-click="tclient.readProperty(thing,property)">update</button>
 					<button ng-click="tclient.writeProperty(thing,property)" ng-show="property.writable">set</button>
 			</li>

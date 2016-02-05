@@ -43,6 +43,11 @@ angular.module("wot").controller('ThingClientCtrl',
        .catch(showError);
      }
 
+     ThingClientCtrl.callAction = function callAction(thing,action,param) {
+       $http.post(thing.uri + "/" + action.name, {"value" : param})
+       .catch(showError);
+     }
+
     return ThingClientCtrl;
    }
   ]

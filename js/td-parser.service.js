@@ -3,6 +3,11 @@ angular.module("wot").factory('TdParser',['$http',
     var TdParser = {};
 
     //helper functions
+    function isNumericType(xsdType) {
+       var numericTypes = ['xsd:byte','xsd:float','xsd:decimal','xsd:int','xsd:long'];
+       return numericTypes.indexOf(xsdType) != -1;
+    }
+
     function createThing(parsedTd) {
       var newThing = {
         'name' : parsedTd.metadata.name,
@@ -20,7 +25,10 @@ angular.module("wot").factory('TdParser',['$http',
          newThing.properties.push({
            'name': property.name,
            'writable' : property.writable,
-           'xsdType' : property.outputData
+           'xsdType' : property.outputData,
+           'isNumeric' : function isNumeric() {
+             return isNumericType(this.xsdType);
+           }
          });
        });
 
