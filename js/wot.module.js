@@ -1,1 +1,1 @@
-var wot = angular.module("wot",[]);
+var wot = angular.module("wot",['ngMaterial']);

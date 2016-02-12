@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <title>Thingweb Client</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style type="text/css">
+        /**
+         * Hide when Angular is not yet loaded and initialized
+         */
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+          display: none !important;
+        }
+    </style>
+
+  </head>
+
+  <body ng-app="thingclient" layout="row" ng-controller="ThingClientCtrl as tcc" ng-cloak >
+
+  <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
+      md-component-id="left"
+      ng-click="tcc.toggleList()" aria-label="Show Things List"
+      md-is-locked-open="$mdMedia('gt-sm')">
+
+    <md-toolbar layout="row" class="md-whiteframe-z1">
+      <h3>Things</h3>
+      <span flex></span>
+      <md-button class="menu" aria-label="Add Thing">
+        <md-icon>add</md-icon>
+      </md-button>
+    </md-toolbar>
+
+    <md-list>
+      <md-list-item ng-repeat="it in things">
+          <md-button ng-click="tcc.selectThing(it)" ng-class="{'selected' : it === tcc.selected }">
+            <md-icon>bug_report</md-icon>
+            {{it.name}}
+          </md-button>
+      </md-list-item>
+    </md-list>
+
+    <md-button class="md-fab md-mini" aria-label="Add Thing">
+            <md-icon>add</md-icon>
+      </md-button>
+
+  </md-sidenav>
+
+
+  <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+    <md-toolbar layout="row" class="md-whiteframe-z1">
+      <md-button id="main" class="menu" hide-gt-sm ng-click="tcc.toggleList()" aria-label="Show User List">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <h3>Web of Things Client</h3>
+      <span flex></span>
+      <md-button aria-label="More" class="menu" hide-gt-sm>
+        <md-icon>more_vert</md-icon>
+    </md-button>
+    </md-toolbar>
+
+    <md-content flex id="content">
+        <md-icon md-svg-icon="{{tcc.selected.avatar}}" class="avatar"></md-icon>
+        <h2>{{tcc.selected.name}}</h2>
+        <p>{{tcc.selected.uri}}</p>
+
+				<!-- actions and properties -->
+
+      </md-content>
+
+  </div>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+	<!-- in the future, these scripts get concatenated to angular-wot.js -->
+	<script src="js/wot.module.js"></script>
+	<script src="js/td-parser.service.js"></script>
+	<script src="js/thing-client.service.js"></script>
+	<script src="js/file-loader.directive.js"></script>
+	<script src="js/thing-client-ctrl.controller.js"></script>
+
+    <script type="text/javascript">
+
+          angular
+              .module('thingclient', ['ngMaterial', 'wot'])
+              .config(function($mdThemingProvider, $mdIconProvider){
+								    $mdThemingProvider.theme('default')
+                          .primaryPalette('blue-grey')
+                          .accentPalette('grey');
+
+              });
+
+    </script>
+
+  </body>
+</html>
