@@ -31,10 +31,6 @@
 
     <md-toolbar layout="row" class="md-whiteframe-z1">
       <h3>Things</h3>
-      <span flex></span>
-      <md-button class="menu" aria-label="Add Thing">
-        <md-icon>add</md-icon>
-      </md-button>
     </md-toolbar>
 
     <md-list>
@@ -46,11 +42,53 @@
       </md-list-item>
     </md-list>
 
-    <md-button class="md-fab md-mini" aria-label="Add Thing">
+    <md-fab-toolbar md-open="closed" md-direction="right">
+        <md-fab-trigger class="align-with-text">
+          <md-button aria-label="Add Thing" class="md-fab md-primary">
             <md-icon>add</md-icon>
-      </md-button>
+            <md-tooltip>add thing</md-tooltip>
+          </md-button> Add...
+        </md-fab-trigger>
+        <md-toolbar>
+          <md-fab-actions class="md-toolbar-tools">
+            <md-button aria-label="cancel" class="md-icon-button">
+              <md-icon>clear</md-icon>
+              <!-- md-tooltip>Cancel</md-tooltip -->
+            </md-button>
+            <md-button aria-label="add from uri" class="md-icon-button">
+              <md-icon>cloud_download</md-icon>
+              <!-- md-tooltip>add from uri</md-tooltip -->
+            </md-button>
+            <md-button aria-label="add from file" class="md-icon-button">
+              <md-icon>attachment</md-icon>
+              <!-- md-tooltip>add from file</md-tooltip-->
+            </md-button>
+          </md-fab-actions>
+        </md-toolbar>
+      </md-fab-toolbar>
+
+
+      <md-fab-speed-dial  md-open="closed" md-direction="right" class="md-scale">
+        <md-fab-trigger>
+          <md-button aria-label="Add Thing" class="md-fab md-primary">
+            <md-icon>add</md-icon>
+            <md-tooltip>add thing</md-tooltip>
+          </md-button> Add...
+        </md-fab-trigger>
+          <md-fab-actions>
+            <md-button aria-label="add from uri" class="md-fab md-raised md-mini">
+              <md-icon>cloud_download</md-icon>
+              <md-tooltip>add from uri</md-tooltip>
+            </md-button>
+            <md-button aria-label="add from file" class="md-fab md-raised md-mini">
+              <md-icon>attachment</md-icon>
+              <md-tooltip>add from file</md-tooltip>
+            </md-button>
+          </md-fab-actions>
+      </md-fab-speed-dial>
 
   </md-sidenav>
+
 
 
   <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
