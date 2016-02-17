@@ -1,6 +1,6 @@
 angular.module("wot").controller('ThingClientCtrl',
-  ['$scope','$mdSidenav','TdParser','ThingClient',
-  function ThingClientCtrl($scope, $mdSidenav, TdParser, ThingClient) {
+  ['$scope','$mdSidenav','$mdDialog','TdParser','ThingClient',
+  function ThingClientCtrl($scope, $mdSidenav, $mdDialog, TdParser, ThingClient) {
     var self = this;
     $scope.things = [];
     $scope.errors = [];
@@ -20,6 +20,7 @@ angular.module("wot").controller('ThingClientCtrl',
 
     self.addThing = function addThing(thing) {
         $scope.things.push(thing);
+        self.selected = thing;
      }
 
      self.updateState = function updateState(thing) {
@@ -38,6 +39,30 @@ angular.module("wot").controller('ThingClientCtrl',
        self.selected = thing;
      };
 
+     self.openUriDialog = function openUriDialog($event) {
+       $mdDialog.show({
+          clickOutsideToClose: true,
+          controller: function($mdDialog) {
+            // Save the clicked item
+            this.uri = "";
+            // Setup some handlers
+            this.close = function() {
+              $mdDialog.cancel();
+            };
+            this.submit = function() {
+              $mdDialog.hide();
+              self.addThingFromUrl(this.uri);
+            };
+          },
+          controllerAs: 'dialog',
+          templateUrl: 'uridialog.html',
+          targetEvent: $event
+        });
+     }
+
+     self.addFileFromPicker = function addFileFromPicker(filePickerId) {
+        angular.element(document.querySelector('#' + filePickerId))[0].click();
+     }
 
     return self;
    }

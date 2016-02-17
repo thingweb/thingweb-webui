@@ -42,33 +42,8 @@
       </md-list-item>
     </md-list>
 
-    <md-fab-toolbar md-open="closed" md-direction="right">
-        <md-fab-trigger class="align-with-text">
-          <md-button aria-label="Add Thing" class="md-fab md-primary">
-            <md-icon>add</md-icon>
-            <md-tooltip>add thing</md-tooltip>
-          </md-button> Add...
-        </md-fab-trigger>
-        <md-toolbar>
-          <md-fab-actions class="md-toolbar-tools">
-            <md-button aria-label="cancel" class="md-icon-button">
-              <md-icon>clear</md-icon>
-              <!-- md-tooltip>Cancel</md-tooltip -->
-            </md-button>
-            <md-button aria-label="add from uri" class="md-icon-button">
-              <md-icon>cloud_download</md-icon>
-              <!-- md-tooltip>add from uri</md-tooltip -->
-            </md-button>
-            <md-button aria-label="add from file" class="md-icon-button">
-              <md-icon>attachment</md-icon>
-              <!-- md-tooltip>add from file</md-tooltip-->
-            </md-button>
-          </md-fab-actions>
-        </md-toolbar>
-      </md-fab-toolbar>
-
-
-      <md-fab-speed-dial  md-open="closed" md-direction="right" class="md-scale">
+      <md-fab-speed-dial  md-open="isOpen" md-direction="right" class="md-scale"
+      md-hover-full="true" ng-mouseenter="isOpen=true" ng-mouseleave="isOpen=false">
         <md-fab-trigger>
           <md-button aria-label="Add Thing" class="md-fab md-primary">
             <md-icon>add</md-icon>
@@ -76,17 +51,20 @@
           </md-button> Add...
         </md-fab-trigger>
           <md-fab-actions>
-            <md-button aria-label="add from uri" class="md-fab md-raised md-mini">
+            <md-button aria-label="add from uri" class="md-fab md-raised md-mini"
+            ng-click="tcc.openUriDialog($event,'uri')">
               <md-icon>cloud_download</md-icon>
               <md-tooltip>add from uri</md-tooltip>
             </md-button>
-            <md-button aria-label="add from file" class="md-fab md-raised md-mini">
+            <md-button aria-label="add from file" class="md-fab md-raised md-mini"
+            ng-click="tcc.addFileFromPicker('tdFilePicker')">
               <md-icon>attachment</md-icon>
               <md-tooltip>add from file</md-tooltip>
             </md-button>
           </md-fab-actions>
       </md-fab-speed-dial>
 
+      <input id="tdFilePicker" type="file" file-loader ng-model="pickedFile" file-loaded="tcc.addThingFromJson(pickedFile)" ng-show="false" />
   </md-sidenav>
 
 

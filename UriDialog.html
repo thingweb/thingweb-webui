@@ -1,0 +1,21 @@
+<md-dialog>
+     <md-toolbar>
+       <div class="md-toolbar-tools">New Thing</div>
+     </md-toolbar>
+     <md-dialog-content>
+       <div class="md-dialog-content">
+      <md-input-container>
+       <label>Enter URI</label>
+       <input ng-model="dialog.uri">
+     </md-input-container>
+   </div>
+     </md-dialog-content>
+     <md-dialog-actions layout="row">
+       <md-button aria-label="Close dialog" ng-click="dialog.close()" class="md-primary">
+         Close
+       </md-button>
+       <md-button aria-label="Submit dialog" ng-click="dialog.submit()" class="md-primary">
+         Add
+       </md-button>
+     </md-dialog-actions>
+  </md-dialog>
