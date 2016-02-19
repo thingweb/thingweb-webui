@@ -1,17 +1,21 @@
 angular.module("wot").controller('ThingClientCtrl',
-  ['$scope','$mdSidenav','$mdDialog','TdParser','ThingClient',
-  function ThingClientCtrl($scope, $mdSidenav, $mdDialog, TdParser, ThingClient) {
+  ['$scope','$mdSidenav','$mdDialog', '$mdToast','TdParser','ThingClient',
+  function ThingClientCtrl($scope, $mdSidenav, $mdDialog, $mdToast, TdParser, ThingClient) {
     var self = this;
     $scope.things = [];
-    $scope.errors = [];
     self.selected = {};
 
+    var showRestError = function showRestError(errorObj) {
+      msg = errorObj.config.method + " to " + errorObj.config.url + " failed";
+      showError(msg);
+    }
+
     var showError = function showError(errorMsg) {
-      $scope.errors.push(errorMsg);
+      $mdToast.showSimple(errorMsg);
     }
 
     self.addThingFromUrl = function addThingFromUrl(url) {
-       TdParser.fromUrl(url).then(self.addThing).catch(showError);
+       TdParser.fromUrl(url).then(self.addThing).catch(showRestError);
      }
 
      self.addThingFromJson = function addThingFromJson(json) {
@@ -23,12 +27,22 @@ angular.module("wot").controller('ThingClientCtrl',
         self.selected = thing;
      }
 
-     self.updateState = function updateState(thing) {
-       $scope.things.forEach(function updateThing(thing) {
-         thing.properties.forEach(function(property) {
-          ThingClient.readProperty(thing,property);
-         })
-       });
+     self.updateState = function updateState() {
+         self.selected.properties.forEach(function(property) {
+          ThingClient.readProperty(self.selected,property).catch(showRestError);
+        });
+     }
+
+     self.readProperty = function readProperty(property) {
+       ThingClient.readProperty(self.selected,property).catch(showRestError);
+     }
+
+     self.writeProperty = function writeProperty(property) {
+       ThingClient.writeProperty(self.selected,property).catch(showRestError);
+     }
+
+     self.callAction = function callAction(action,param) {
+       ThingClient.callAction(self.selected,action,param).catch(showRestError);
      }
 
      self.toggleList = function toggleList() {

@@ -74,19 +74,85 @@
       <md-button id="main" class="menu" hide-gt-sm ng-click="tcc.toggleList()" aria-label="Show User List">
         <md-icon>menu</md-icon>
       </md-button>
-      <h3>Web of Things Client</h3>
+      <h3>Web of Things Client
+        <span ng-show="tcc.selected.name">
+          : {{tcc.selected.name}}
+        </span>
+      </h3>
       <span flex></span>
-      <md-button aria-label="More" class="menu" hide-gt-sm>
+      <!-- md-button aria-label="More" class="menu" hide-gt-sm>
         <md-icon>more_vert</md-icon>
-    </md-button>
+    </md-button-->
     </md-toolbar>
 
-    <md-content flex id="content">
-        <md-icon md-svg-icon="{{tcc.selected.avatar}}" class="avatar"></md-icon>
-        <h2>{{tcc.selected.name}}</h2>
-        <p>{{tcc.selected.uri}}</p>
+    <md-content id="content" ng-show="tcc.selected.name">
+
+      <section class="md-whiteframe-2dp">
+        <md-toolbar  class="md-primary">
+          <div class="md-toolbar-tools">
+            <h2>{{tcc.selected.name}}</h2>
+        </div>
+        </md-toolbar>
+        <span class="md-subhead">{{tcc.selected.uri}}</span>
+      </section>
+      <br/>
 
 				<!-- actions and properties -->
+        <section class="md-whiteframe-2dp">
+          <md-toolbar  class="md-primary">
+            <div class="md-toolbar-tools">
+              <h2>Actions</h2>
+          </div>
+          </md-toolbar>
+        <ul ng-repeat="action in tcc.selected.actions">
+          <li>{{action.name}}
+            <md-input-container ng-show="action.xsdParamType && action.xsdParamType != 'xsd:boolean'">
+              <label>Parameter ({{action.xsdParamType}})</label>
+              <input ng-model="param" />
+            </md-input-container>
+            <md-checkbox ng-show="action.xsdParamType === 'xsd:boolean'" ng-model="param">
+
+            </md-checkbox>
+            <md-button ng-click="tcc.callAction(action, param)">call</md-button>
+          </li>
+        </ul>
+      </section>
+        <br/>
+
+        <section class="md-whiteframe-2dp">
+          <md-toolbar  class="md-primary">
+            <div class="md-toolbar-tools">
+              <h2>Properties</h2>
+              <span flex></span>
+              <md-button class="md-icon-button" aria-label="update state" ng-click="tcc.updateState()">
+                <md-icon>autorenew</md-icon>
+                <md-tooltip>update all</md-tooltip>
+              </md-button>
+            </div>
+          </md-toolbar>
+        <ul ng-repeat="property in tcc.selected.properties">
+          <li>{{property.name}}: {{property.xsdType}}
+              {{property.writable ? "(writable)" : "(read-only)"}}
+
+              <md-input-container ng-show="property.xsdType === 'xsd:string'">
+                <label>{{property.xsdType}}</label>
+                <input type="text" ng-model="property.value" ng-readonly="!property.writable" />
+              </md-input-container>
+
+              <md-input-container ng-show="property.isNumeric()">
+                <label>{{property.xsdType}}</label>
+                <input type="number" ng-model="property.value" ng-readonly="!property.writable" />
+              </md-input-container>
+
+              <md-checkbox type="checkbox" ng-model="property.value" ng-readonly="!property.writable" ng-show="property.xsdType === 'xsd:boolean'">
+
+              </md-checkbox>
+
+              <md-button ng-click="tcc.readProperty(property)">update</md-button>
+              <md-button ng-click="tcc.writeProperty(property)" ng-show="property.writable">set</md-button>
+          </li>
+        </ul>
+      </section>
 
       </md-content>
 
@@ -99,7 +165,8 @@
 
 	<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
 
-	<!-- in the future, these scripts get concatenated to angular-wot.js -->
+	<!-- in the future, these scripts get conca
+  tenated to angular-wot.js -->
 	<script src="js/wot.module.js"></script>
 	<script src="js/td-parser.service.js"></script>
 	<script src="js/thing-client.service.js"></script>

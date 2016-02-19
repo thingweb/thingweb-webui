@@ -4,7 +4,15 @@ angular.module("wot").factory('TdParser',['$http',
 
     //helper functions
     function isNumericType(xsdType) {
-       var numericTypes = ['xsd:byte','xsd:float','xsd:decimal','xsd:int','xsd:long'];
+       var numericTypes = [
+         'xsd:byte',
+         'xsd:float',
+         'xsd:decimal',
+         'xsd:int',
+         'xsd:long',
+         'xsd:unsignedByte',
+         'xsd:unsignedShort'
+       ];
        return numericTypes.indexOf(xsdType) != -1;
     }
 
