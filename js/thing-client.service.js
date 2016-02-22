@@ -1,21 +1,39 @@
-angular.module("wot").factory('ThingClient',['$http',
-  function ThingClientFactory($http) {
+angular.module("wot").factory('ThingClient',['$http','CoAP',
+  function ThingClientFactory($http,CoAP) {
     var ThingClient = {};
 
     ThingClient.readProperty = function readProperty(thing,property) {
-      return $http.get(thing.uri + "/" + property.name)
-       .then(function(res) {return res.data.value})
-       .then(function applyNewValue(value) {
-         property.value = value;
-       })
+      if(thing.protocols['HTTP']) {
+        return $http.get(thing.protocols['HTTP'].uri + "/" + property.name)
+         .then(function(res) {return res.data.value})
+         .then(function applyNewValue(value) {
+           property.value = value;
+         });
+     } else if(thing.protocols['CoAP']) {
+       return CoAP.get(thing.protocols['CoAP'].uri + "/" + property.name)
+        .then(function(res) {
+          return JSON.parse(res).value
+          })
+        .then(function applyNewValue(value) {
+          property.value = value;
+        });
+     }
     }
 
     ThingClient.writeProperty = function writeProperty(thing,property) {
-      return $http.put(thing.uri + "/" + property.name, {"value" : property.value})
+      if(thing.protocols['HTTP']) {
+        return $http.put(thing.protocols['HTTP'].uri + "/" + property.name, {"value" : property.value})
+      } else {
+        return CoAP.put(thing.protocols['CoAP'].uri + "/" + property.name, {"value" : property.value})
+      }
     }
 
     ThingClient.callAction = function callAction(thing,action,param) {
-      return $http.post(thing.uri + "/" + action.name, {"value" : param})
+      if(thing.protocols['HTTP']) {
+        return $http.post(thing.protocols['HTTP'].uri + "/" + action.name, {"value" : param})
+      } else {
+        return CoAP.post(thing.protocols['CoAP'].uri + "/" + action.name, {"value" : param})
+      }
     }
 
     return ThingClient;

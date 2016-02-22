@@ -21,7 +21,8 @@ angular.module("wot").factory('TdParser',['$http',
         'name' : parsedTd.metadata.name,
         'properties' : [],
         'actions': [],
-        'uri': parsedTd.metadata.protocols.HTTP.uri
+        'uri': (parsedTd.metadata.protocols.HTTP) ? parsedTd.metadata.protocols.HTTP.uri : parsedTd.metadata.protocols.CoAP.uri, //FIXME dodgy
+        'protocols' : parsedTd.metadata.protocols
       };
 
       //add all properties

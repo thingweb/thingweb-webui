@@ -1,1 +1,1 @@
-var wot = angular.module("wot",['ngMaterial']);
+var wot = angular.module("wot",['ngMaterial','coap']);
