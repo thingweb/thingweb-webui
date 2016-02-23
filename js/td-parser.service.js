@@ -1,5 +1,5 @@
-angular.module("wot").factory('TdParser',['$http',
-  function TdParserFactory($http) {
+angular.module("wot").factory('TdParser',['$http','CoAP',
+  function TdParserFactory($http,CoAP) {
     var TdParser = {};
 
     //helper functions
@@ -16,7 +16,7 @@ angular.module("wot").factory('TdParser',['$http',
        return numericTypes.indexOf(xsdType) != -1;
     }
 
-    function createThing(parsedTd) {
+  TdParser.createThing = function createThing(parsedTd) {
       var newThing = {
         'name' : parsedTd.metadata.name,
         'properties' : [],
@@ -58,13 +58,16 @@ angular.module("wot").factory('TdParser',['$http',
     }
 
     TdParser.fromUrl = function fromUrl(url) {
-      return $http.get(url).then(function(res) { return res.data}).then(createThing)
+      if(url.substring(0,4)=='coap') {
+        return CoAP.get(url).then(function(res) { return JSON.parse(res) }).then(TdParser.createThing)
+      } else
+        return $http.get(url).then(function(res) { return res.data}).then(TdParser.createThing)
     }
 
     TdParser.parseJson = function parseJson(json) {
       // TODO actually parse as JSON-LD, e.g. using io-informatics/angular-jsonld
       var td = JSON.parse(json);
-      return createThing(td);
+      return TdParser.createThing(td);
     }
 
     return TdParser;

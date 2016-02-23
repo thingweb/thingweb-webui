@@ -27,7 +27,7 @@
   <md-sidenav class="site-sidenav md-sidenav-left md-whiteframe-z2"
       md-component-id="left"
       ng-click="tcc.toggleList()" aria-label="Show Things List"
-      md-is-locked-open="$mdMedia('gt-sm')">
+      md-is-locked-open="$mdMedia('gt-sm')" flex>
 
     <md-toolbar layout="row" class="md-whiteframe-z1">
       <h3>Things</h3>
@@ -69,7 +69,7 @@
 
 
 
-  <div flex layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2">
+  <div layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2" flex>
     <md-toolbar layout="row" class="md-whiteframe-z1">
       <md-button id="main" class="menu" hide-gt-sm ng-click="tcc.toggleList()" aria-label="Show User List">
         <md-icon>menu</md-icon>
@@ -85,9 +85,9 @@
     </md-button-->
     </md-toolbar>
 
-    <md-content id="content" ng-show="tcc.selected.name">
+    <md-content id="content" ng-show="tcc.selected.name" layout-margin layout="column" >
 
-      <section class="md-whiteframe-2dp">
+      <section class="md-whiteframe-2dp" flex>
         <md-toolbar  class="md-primary">
           <div class="md-toolbar-tools">
             <h2>{{tcc.selected.name}}</h2>
@@ -98,7 +98,7 @@
       <br/>
 
 				<!-- actions and properties -->
-        <section class="md-whiteframe-2dp">
+        <section class="md-whiteframe-2dp" flex="80">
           <md-toolbar  class="md-primary">
             <div class="md-toolbar-tools">
               <h2>Actions</h2>
@@ -119,7 +119,7 @@
       </section>
         <br/>
 
-        <section class="md-whiteframe-2dp">
+        <section class="md-whiteframe-2dp" flex="80">
           <md-toolbar  class="md-primary">
             <div class="md-toolbar-tools">
               <h2>Properties</h2>
