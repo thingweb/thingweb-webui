@@ -6,7 +6,8 @@ angular.module("wot").controller('ThingClientCtrl',
     self.selected = {};
 
     var showRestError = function showRestError(errorObj) {
-      msg = errorObj.config.method + " to " + errorObj.config.url + " failed";
+      msg = errorObj.config.method + " to " + errorObj.config.url + " failed.<br/>";
+      msg += errorObj.status + " " + errorObj.statusText
       showError(msg);
     }
 

@@ -200,7 +200,16 @@ function CoapProvider() {
         request.open(method, uri, true);
 
         request.onload = function () {
-          deferred.resolve(request.responseText);
+          if(request.status >= 400) {
+            request.config = {
+              "url" : uri,
+              "method" : method
+            };
+            deferred.reject(request);
+          }
+
+          else
+            deferred.resolve(request.responseText);
         };
 
         request.onerror = function() {

@@ -59,9 +59,15 @@ angular.module("wot").factory('TdParser',['$http','CoAP',
 
     TdParser.fromUrl = function fromUrl(url) {
       if(url.substring(0,4)=='coap') {
-        return CoAP.get(url).then(function(res) { return JSON.parse(res) }).then(TdParser.createThing)
+        return CoAP.get(url)
+        .then(function(res) {
+          return JSON.parse(res)
+        })
+        .then(TdParser.createThing)
       } else
-        return $http.get(url).then(function(res) { return res.data}).then(TdParser.createThing)
+        return $http.get(url).then(function(res) {
+          return res.data
+        }).then(TdParser.createThing)
     }
 
     TdParser.parseJson = function parseJson(json) {
