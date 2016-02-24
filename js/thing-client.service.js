@@ -2,21 +2,27 @@ angular.module("wot").factory('ThingClient',['$http','CoAP',
   function ThingClientFactory($http,CoAP) {
     var ThingClient = {};
 
+
+
     ThingClient.readProperty = function readProperty(thing,property) {
+      function applyNewValue(value) {
+        property.value = value;
+        property.history.push(value);
+
+        //ensure size
+        while(property.history.length > 10) property.history.shift();
+      }
+
       if(thing.protocols['HTTP']) {
         return $http.get(thing.protocols['HTTP'].uri + "/" + property.name)
          .then(function(res) {return res.data.value})
-         .then(function applyNewValue(value) {
-           property.value = value;
-         });
+         .then(applyNewValue);
      } else if(thing.protocols['CoAP']) {
        return CoAP.get(thing.protocols['CoAP'].uri + "/" + property.name)
         .then(function(res) {
           return JSON.parse(res).value
           })
-        .then(function applyNewValue(value) {
-          property.value = value;
-        });
+        .then(applyNewValue);
      }
     }
 

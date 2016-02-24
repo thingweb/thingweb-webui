@@ -149,6 +149,10 @@
               <md-button class="md-raised" ng-click="tcc.toggleAuto(property)">auto-</md-button>
               <md-button class="md-raised" ng-click="tcc.readProperty(property)" ng-disabled="property.autoUpdate">update</md-button>
               <md-button class="md-raised" ng-click="tcc.writeProperty(property)" ng-show="property.writable">set</md-button>
+
+              <div ng-show="property.autoUpdate" class="md-whiteframe-2dp" flex="50">
+                <pre>{{property.history | json}}</pre>
+              </div>
           </li>
         </ul>
       </section>
