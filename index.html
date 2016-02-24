@@ -113,7 +113,7 @@
             <md-checkbox ng-show="action.xsdParamType === 'xsd:boolean'" ng-model="param">
 
             </md-checkbox>
-            <md-button ng-click="tcc.callAction(action, param)">call</md-button>
+            <md-button class="md-raised" ng-click="tcc.callAction(action, param)">call</md-button>
           </li>
         </ul>
       </section>
@@ -131,9 +131,7 @@
             </div>
           </md-toolbar>
         <ul ng-repeat="property in tcc.selected.properties">
-          <li>{{property.name}}: {{property.xsdType}}
-              {{property.writable ? "(writable)" : "(read-only)"}}
-
+          <li>{{property.name}}:
               <md-input-container ng-show="property.xsdType === 'xsd:string'">
                 <label>{{property.xsdType}}</label>
                 <input type="text" ng-model="property.value" ng-readonly="!property.writable" />
@@ -148,8 +146,9 @@
 
               </md-checkbox>
 
-              <md-button ng-click="tcc.readProperty(property)">update</md-button>
-              <md-button ng-click="tcc.writeProperty(property)" ng-show="property.writable">set</md-button>
+              <md-button class="md-raised" ng-click="tcc.toggleAuto(property)">auto-</md-button>
+              <md-button class="md-raised" ng-click="tcc.readProperty(property)" ng-disabled="property.autoUpdate">update</md-button>
+              <md-button class="md-raised" ng-click="tcc.writeProperty(property)" ng-show="property.writable">set</md-button>
           </li>
         </ul>
       </section>

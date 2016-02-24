@@ -1,9 +1,10 @@
 angular.module("wot").controller('ThingClientCtrl',
-  ['$scope','$mdSidenav','$mdDialog', '$mdToast','TdParser','ThingClient',
-  function ThingClientCtrl($scope, $mdSidenav, $mdDialog, $mdToast, TdParser, ThingClient) {
+  ['$scope','$interval','$mdSidenav','$mdDialog', '$mdToast','TdParser','ThingClient',
+  function ThingClientCtrl($scope, $interval, $mdSidenav, $mdDialog, $mdToast, TdParser, ThingClient) {
     var self = this;
     $scope.things = [];
     self.selected = {};
+    self.autoReloaded = [];
 
     var showRestError = function showRestError(errorObj) {
       msg = errorObj.config.method + " to " + errorObj.config.url + " failed.<br/>";
@@ -14,6 +15,14 @@ angular.module("wot").controller('ThingClientCtrl',
     var showError = function showError(errorMsg) {
       $mdToast.showSimple(errorMsg);
     }
+
+    var reloadAuto = function reloadAuto() {
+      self.autoReloaded.forEach(function(property) {
+          ThingClient.readProperty(property.parent,property).catch(showRestError);
+      });
+    }
+
+    $interval(reloadAuto, 1000);
 
     self.addThingFromUrl = function addThingFromUrl(url) {
        TdParser.fromUrl(url).then(self.addThing).catch(showRestError);
@@ -77,6 +86,17 @@ angular.module("wot").controller('ThingClientCtrl',
 
      self.addFileFromPicker = function addFileFromPicker(filePickerId) {
         angular.element(document.querySelector('#' + filePickerId))[0].click();
+     }
+
+     self.toggleAuto = function toggleAuto(property) {
+       property.autoUpdate = !property.autoUpdate;
+       if(property.autoUpdate) {
+         self.autoReloaded.push(property);
+       } else {
+         var idx = autoReloaded.indexOf(property);
+         if(idx > -1)
+          self.autoReloaded.splice(idx,1); //remove property
+       }
      }
 
     return self;

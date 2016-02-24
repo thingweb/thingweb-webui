@@ -35,6 +35,9 @@ angular.module("wot").factory('TdParser',['$http','CoAP',
            'name': property.name,
            'writable' : property.writable,
            'xsdType' : property.outputData,
+           'autoUpdate' : false,
+           'history' : [],
+           'parent' : newThing,
            'isNumeric' : function isNumeric() {
              return isNumericType(this.xsdType);
            }
@@ -50,7 +53,8 @@ angular.module("wot").factory('TdParser',['$http','CoAP',
           newThing.actions.push({
             'name': action.name,
             'xsdParamType' : action.inputData,
-            'xsdReturnType' : action.outputData
+            'xsdReturnType' : action.outputData,
+            'parent' : newThing
           });
         });
 
