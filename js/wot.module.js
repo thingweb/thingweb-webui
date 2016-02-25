@@ -1,1 +1,1 @@
-var wot = angular.module("wot",['ngMaterial','coap']);
+var wot = angular.module("wot",['ngMaterial','coap','chartjs-directive']);

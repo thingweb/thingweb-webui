@@ -10,7 +10,7 @@ angular.module("wot").factory('ThingClient',['$http','CoAP',
         property.history.push(value);
 
         //ensure size
-        while(property.history.length > 10) property.history.shift();
+        while(property.history.length >= 20) property.history.shift();
       }
 
       if(thing.protocols['HTTP']) {

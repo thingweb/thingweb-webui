@@ -150,9 +150,10 @@
               <md-button class="md-raised" ng-click="tcc.readProperty(property)" ng-disabled="property.autoUpdate">update</md-button>
               <md-button class="md-raised" ng-click="tcc.writeProperty(property)" ng-show="property.writable">set</md-button>
 
-              <div ng-show="property.autoUpdate" class="md-whiteframe-2dp" flex="50">
-                <pre>{{property.history | json}}</pre>
+              <div ng-show="property.autoUpdate" class="md-whiteframe-2dp" layout flex="50">
+                <chart value="property.history" type="Bar" height="120" width="360" />
               </div>
+
           </li>
         </ul>
       </section>
@@ -169,7 +170,9 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
 
 	<!-- in the future, these scripts get concatenated -->
-	<script src="js/angular-coap.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/chartjs-directive.js"></script>
+  <script src="js/angular-coap.js"></script>
 	<script src="js/wot.module.js"></script>
 	<script src="js/td-parser.service.js"></script>
 	<script src="js/thing-client.service.js"></script>
