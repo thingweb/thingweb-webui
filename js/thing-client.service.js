@@ -35,10 +35,15 @@ angular.module("wot").factory('ThingClient',['$http','CoAP',
     }
 
     ThingClient.callAction = function callAction(thing,action,param) {
+      var payload = {"value" : param};
+      if(action.xsdParamType === 'WoTScript') {
+        payload = param;
+      };
+
       if(thing.protocols['HTTP']) {
-        return $http.post(thing.protocols['HTTP'].uri + "/" + action.name, {"value" : param})
+        return $http.post(thing.protocols['HTTP'].uri + "/" + action.name, payload);
       } else {
-        return CoAP.post(thing.protocols['CoAP'].uri + "/" + action.name, {"value" : param})
+        return CoAP.post(thing.protocols['CoAP'].uri + "/" + action.name, payload);
       }
     }
 
