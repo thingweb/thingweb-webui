@@ -1,4 +1,4 @@
-angular.module("wot").controller('ThingClientCtrl',
+angular.module("thingclient").controller('ThingClientCtrl',
   ['$scope','$interval','$mdSidenav','$mdDialog', '$mdToast','TdParser','ThingClient',
   function ThingClientCtrl($scope, $interval, $mdSidenav, $mdDialog, $mdToast, TdParser, ThingClient) {
     var self = this;

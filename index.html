@@ -172,17 +172,18 @@
 	<!-- in the future, these scripts get concatenated -->
   <script src="js/chart.js"></script>
   <script src="js/chartjs-directive.js"></script>
-  <script src="js/angular-coap.js"></script>
-	<script src="js/wot.module.js"></script>
-	<script src="js/td-parser.service.js"></script>
-	<script src="js/thing-client.service.js"></script>
-	<script src="js/file-loader.directive.js"></script>
-	<script src="js/thing-client-ctrl.controller.js"></script>
+  	<script src="js/file-loader.directive.js"></script>
+  
+    <script src="js/angular-coap/angular-coap.js"></script>
+	<script src="js/angular-wot/wot.module.js"></script>
+	<script src="js/angular-wot/td-parser.service.js"></script>
+	<script src="js/angular-wot/thing-client.service.js"></script>
+    
 
+	
     <script type="text/javascript">
-
           angular
-              .module('thingclient', ['ngMaterial', 'wot'])
+              .module('thingclient', ['ngMaterial','chartjs-directive','file-loader', 'wot'])
               .config(function($mdThemingProvider, $mdIconProvider){
 								    $mdThemingProvider.theme('default')
                           .primaryPalette('blue-grey')
@@ -191,6 +192,8 @@
               });
 
     </script>
+
+    <script src="js/thing-client-ctrl.controller.js"></script>
 
   </body>
 </html>

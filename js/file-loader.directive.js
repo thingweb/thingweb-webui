@@ -1,5 +1,5 @@
 //based on https://stackoverflow.com/questions/18839048/how-to-read-a-file-in-angularjs
-angular.module("wot").directive('fileLoader', ['$window', function ($window) {
+angular.module("file-loader",[]).directive('fileLoader', ['$window', function ($window) {
     return {
         restrict: 'A',
         require: 'ngModel',
