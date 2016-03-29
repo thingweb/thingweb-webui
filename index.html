@@ -9,9 +9,13 @@
     <meta name="description" content="">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     
-    <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
+    <!-- build:css assets/css/vendor.min.css -->
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
+    <!-- endbuild -->
+    
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+   
     <style type="text/css">
         /**
          * Hide when Angular is not yet loaded and initialized
@@ -171,31 +175,23 @@
 
     </div>
 
-    <script src="bower_components/angular/angular.min.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-    <script src="bower_components/angular-aria/angular-aria.min.js"></script>
-    <script src="bower_components/angular-messages/angular-messages.min.js"></script>
-    <script src="bower_components/angular-material/angular-material.min.js"></script>
-    <script src="bower_components/angular-coap/angular-coap.min.js"></script>
-    <script src="bower_components/angular-wot/dist/angular-wot.min.js"></script>
+    <!-- build:js assets/js/vendor.min.js -->
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+    <script src="bower_components/angular-coap/angular-coap.js"></script>
+    <script src="bower_components/angular-wot/dist/angular-wot.js"></script>
+    <!-- endbuild -->
 
-    <!-- we'll introduce an asset pipeline for web delivery' -->
+    <!-- build:js assets/js/app.min.js -->
     <script src="js/chart.js"></script>
     <script src="js/chartjs-directive.js"></script>
     <script src="js/file-loader.directive.js"></script>
-
-    <script type="text/javascript">
-        angular
-              .module('thingclient', ['ngMaterial','chartjs-directive','file-loader', 'wot'])
-              .config(function($mdThemingProvider, $mdIconProvider){
-								    $mdThemingProvider.theme('default')
-                          .primaryPalette('blue-grey')
-                          .accentPalette('grey');
-
-              });
-    </script>
-
-    <script src="js/thing-client-ctrl.controller.js"></script>
+    <script src="js/thingclient.module.js" ></script>
+    <script src="js/thingclient-ctrl.controller.js"></script>
+    <!-- endbuild -->
 
 </body>
 
