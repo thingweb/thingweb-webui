@@ -1,0 +1,31 @@
+{
+  "name": "thingweb-webui",
+  "homepage": "https://github.com/thingweb/thingweb-webui",
+  "authors": [
+    "Johannes Hund (h0ru5) <johannes.hund@gmail.com>"
+  ],
+  "description": "W3C WoT in-browser client supporting HTTP, CoAP and JSON",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "W3C",
+    "WoT",
+    "web",
+    "things",
+    "IoT",
+    "Angular",
+    "material"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-wot": "^0.0.2"
+  }
+}
