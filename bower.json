@@ -26,7 +26,10 @@
     "tests"
   ],
   "dependencies": {
-    "angular-wot": "^0.0.10",
-    "angular-material": "^1.0.6"
+    "angular-material": "^1.0.6",
+    "angular-wot": "^0.0.12"
+  },
+  "resolutions": {
+    "angular-wot": "^0.0.12"
   }
 }
