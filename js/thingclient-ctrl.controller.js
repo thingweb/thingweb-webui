@@ -33,7 +33,7 @@ angular.module("thingclient").controller('ThingClientCtrl',
             }
             
             self.addThingFromObject = function addThingFromObject(td) {
-                self.addThing(td);
+                self.addThing(TdParser.createThing(td));
             }
 
             self.addThing = function addThing(thing) {
