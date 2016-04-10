@@ -1,6 +1,6 @@
 angular.module("thingclient").controller('ThingClientCtrl',
-    ['$scope', '$interval', '$mdSidenav', '$mdDialog', '$mdToast', 'TdParser', 'ThingClient',
-        function ThingClientCtrl($scope, $interval, $mdSidenav, $mdDialog, $mdToast, TdParser, ThingClient) {
+    ['$scope', '$interval', '$http' , '$mdSidenav', '$mdDialog', '$mdToast', 'TdParser', 'ThingClient',
+        function ThingClientCtrl($scope, $interval, $http ,$mdSidenav, $mdDialog, $mdToast, TdParser, ThingClient) {
             var self = this;
             $scope.things = [];
             self.selected = {};
@@ -30,6 +30,10 @@ angular.module("thingclient").controller('ThingClientCtrl',
 
             self.addThingFromJson = function addThingFromJson(json) {
                 self.addThing(TdParser.parseJson(json));
+            }
+            
+            self.addThingFromObject = function addThingFromObject(td) {
+                self.addThing(td);
             }
 
             self.addThing = function addThing(thing) {
@@ -97,6 +101,35 @@ angular.module("thingclient").controller('ThingClientCtrl',
                     if (idx > -1)
                         self.autoReloaded.splice(idx, 1); //remove property
                 }
+            }
+            
+            self.addCatalog = function addCatalog($event) {
+                $mdDialog.show({
+                    clickOutsideToClose: true,
+                    controller: function($mdDialog) {
+                        // Save the clicked item
+                        this.uri = "";
+                        // Setup some handlers
+                        this.close = function() {
+                            $mdDialog.cancel();
+                        };
+                        this.submit = function() {
+                            $mdDialog.hide();
+                            $http.get(this.uri)
+                            .then(function(response) {
+                                var catalog = response.data;
+                                for(var name in catalog) {
+                                    console.log("found " + name);
+                                    self.addThingFromObject(catalog[name]);    
+                                }
+                            })
+                            .catch(showRestError);
+                        };
+                    },
+                    controllerAs: 'dialog',
+                    templateUrl: 'uridialog.html',
+                    targetEvent: $event
+                });
             }
 
             return self;
