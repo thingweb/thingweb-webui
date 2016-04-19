@@ -5,6 +5,7 @@ var gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps'),
     csso = require('gulp-csso') //use csso or clean-css?
     filter = require('gulp-filter'),
+    ngAnnotate = require('gulp-ng-annotate'),
 //    rev = require('gulp-rev'),
 //    revReplace = require('gulp-rev-replace'),
     debug = require('gulp-debug'),
@@ -16,8 +17,9 @@ var gulp = require('gulp'),
 
 gulp.task('default', function() {
     var notIndexFilter = filter(['*', '!index.html'], { restore: true })
-    return gulp.src('index.html')
+    return gulp.src('*.html')
         .pipe(useref({}, lazypipe().pipe(sourcemaps.init, { loadMaps: true })))
+        .pipe(gulpif('*.js', ngAnnotate()))
         .pipe(gulpif('*.js', uglify()))
         .pipe(gulpif('*.css', csso()))
         //.pipe(notIndexFilter)
