@@ -22,5 +22,6 @@ after_success:
   - git config user.name "Travis CI"
   - git config credential.helper "store --file=.git/credentials"
   
+  - git add .
   - git commit -m"automated commit from Travis CI"
   - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then git push --force https://${GH_TOKEN}@github.com/thingweb/thingweb-webui.git master:gh-pages; fi
