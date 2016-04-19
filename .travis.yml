@@ -1,0 +1,26 @@
+language: node_js
+node_js:
+  - "node"
+env:
+  global:
+    - secure: DIMKbCAWyfwXKXtSGw5EO3S+cZemH/k2LDeB8lEcYkeHSauGAHSskYI0hIt+9LVil7mUoLKKKWWR6Wb/uFiTylJasJMYab10qfWGvv/BhxYlLiTF2P3G1laonw5XGsfCE6y83K42AChsxKkQ2i51uYfJRjGiHDoAeBhV9nAbp5w=
+
+before_script: 
+  - npm install
+  - npm insatll -g bower
+  - bower install
+
+script:
+  - gulp
+
+after_success:
+  - cd dist
+  - git init
+  
+  - echo "https://${GH_TOKEN}:@github.com" > .git/credentials
+  - git config user.email "ci-server@travis-ci.org"
+  - git config user.name "Travis CI"
+  - git config credential.helper "store --file=.git/credentials"
+  
+  - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then git diff-index --quiet --cached HEAD || git commit -m"automated commit from Travis CI"; fi
+  - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then git push --force --quiet https://${GH_TOKEN}@github.com/thingweb/thingweb-webui.git gh-pages; fi
