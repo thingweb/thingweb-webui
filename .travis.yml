@@ -7,7 +7,7 @@ env:
 
 before_script: 
   - npm install
-  - npm insatll -g bower
+  - npm install -g bower
   - bower install
 
 script:
