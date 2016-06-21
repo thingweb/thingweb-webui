@@ -3,7 +3,7 @@ var gulp = require('gulp'),
     gulpif = require('gulp-if'),
     uglify = require('gulp-uglify'),
     sourcemaps = require('gulp-sourcemaps'),
-    csso = require('gulp-csso') //use csso or clean-css?
+    csso = require('gulp-csso'), //use csso or clean-css?
     filter = require('gulp-filter'),
     ngAnnotate = require('gulp-ng-annotate'),
 //    rev = require('gulp-rev'),
@@ -16,7 +16,7 @@ var gulp = require('gulp'),
 // cache-busting is defunct - anybody knows why?
 
 gulp.task('default', function() {
-    var notIndexFilter = filter(['*', '!index.html'], { restore: true })
+    var notIndexFilter = filter(['*', '!index.html'], { restore: true });
     return gulp.src('*.html')
         .pipe(useref({}, lazypipe().pipe(sourcemaps.init, { loadMaps: true })))
         .pipe(gulpif('*.js', ngAnnotate()))
@@ -33,5 +33,5 @@ gulp.task('default', function() {
 });
 
 gulp.task('clean', function(cb) {
-  del("dist/**/*",cb);  
+  del("dist/**/*",cb);
 });
