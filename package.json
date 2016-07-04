@@ -1,0 +1,46 @@
+{
+  "name": "thingweb-webui",
+  "version": "0.2.2",
+  "description": "W3C WoT \"current practices\" compliant client web application",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thingweb/thingweb-webui.git"
+  },
+  "keywords": [
+    "W3C",
+    "WoT",
+    "web",
+    "things",
+    "thingweb",
+    "angular",
+    "material"
+  ],
+  "author": "Johannes Hund <johannes.hund@gmail.com> (h0ru5)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thingweb/thingweb-webui/issues"
+  },
+  "homepage": "https://github.com/thingweb/thingweb-webui#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-csso": "^1.1.0",
+    "gulp-debug": "^2.1.2",
+    "gulp-filter": "^4.0.0",
+    "gulp-htmlmin": "^1.3.0",
+    "gulp-if": "^2.0.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-rev": "^7.0.0",
+    "gulp-rev-replace": "^0.4.3",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.3",
+    "gulp-useref": "^3.0.8",
+    "lazypipe": "^1.0.1",
+    "ng-annotate": "^1.2.1"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "@context": "http://w3c.github.io/wot/w3c-wot-td-context.jsonld",
+  "metadata": {
+    "name": "MyAirConditioner",
+    "protocols" : {
+      "HTTP" : {
+        "uri" : "http://www.example.com:80/airconditioner",
+        "priority" : 1
+      }
+	  },
+    "encodings": [
+      "JSON"
+    ]
+  },
+  "interactions": [
+    {
+      "@type": "Property",
+      "name": "operationStatus",
+      "outputData": "xsd:boolean",
+      "writable": true
+    }, {
+      "@type": "Property",
+      "name": "operationMode",
+      "outputData": "xsd:string",
+      "writable": true
+    }, {
+      "@type": "Property",
+      "name": "desiredTemp",
+      "outputData": "xsd:unsignedByte",
+      "writable": true
+    }, {
+      "@type": "Property",
+      "name": "windVolumeLevel",
+      "outputData": "xsd:unsignedByte",
+      "writable": true
+    }
+  ]
+}
