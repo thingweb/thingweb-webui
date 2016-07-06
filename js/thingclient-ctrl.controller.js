@@ -21,9 +21,14 @@ angular.module("thingclient").controller('ThingClientCtrl',
                     ThingClient.readProperty(property.parent, property).catch(showRestError);
                 });
             }
-
+            self.minMax= function minMax(min,max){
+                if (min!= null && max!=null){
+                    return "(min="+min+",max="+max+")";
+                }
+                else return null;
+            }
             self.setType= function setType(type){
-                if (type=="number") {
+                if (type=="number"|| type=="integer") {
                     return "number";
                 }
                 else if (type== "string") {
