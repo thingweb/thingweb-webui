@@ -104,7 +104,7 @@
 
         <md-content id="content" ng-show="tcc.selected.name" layout-margin layout="column">
 
-            <section class="md-whiteframe-2dp" flex>
+            <section class="md-whiteframe-2dp" >
                 <md-toolbar class="md-primary">
                     <div class="md-toolbar-tools">
                         <h2>{{tcc.selected.name}}</h2>
@@ -115,7 +115,7 @@
             <br/>
 
             <!-- actions and properties -->
-            <section class="md-whiteframe-2dp" flex="80">
+            <section class="md-whiteframe-2dp" >
                 <md-toolbar class="md-primary">
                     <div class="md-toolbar-tools">
                         <h2>Actions</h2>
@@ -123,18 +123,48 @@
                 </md-toolbar>
                 <ul ng-repeat="action in tcc.selected.actions">
                     <li>{{action.name}}
-                        <md-input-container ng-show="action.xsdParamType && action.xsdParamType != 'xsd:boolean' && !action.numericParamType">
+                        <md-input-container name="myForm" ng-show="action.xsdParamType== 'String' ">
                             <label>Parameter ({{action.xsdParamType}})</label>
-                            <input type="text" ng-model="param" />
+                            <input type="text" name="myField" ng-model="param" />
+                            <div ng-messages="myForm.myField.$error" role="alert">
+                                
+                                <div ng-message="type">This field must be a valid type.</div>
+                               
+                          </div>
                         </md-input-container>
                         
-                       <md-input-container ng-show="action.xsdParamType && action.numericParamType">
+                       <md-input-container  name ="myForm" ng-show="action.xsdParamType=='number'||action.xsdParamType=='integer' ">
                             <label>Parameter ({{action.xsdParamType}})</label>
-                            <input type="number" ng-model="param" />
+                            <input type="number" name ="myField" ng-model="param" />
+                            <div ng-messages="myForm.myField.$error" role="alert">
+                                
+                                <div ng-message="type">This field must be a valid type.</div>
+                                
+                          </div>
                         </md-input-container>
 
+                    <ul ng-show="action.xsdParamType=='object'" ng-repeat="(key, val) in action.inputProperties track by $index">
+                        <li >
+                         <span>{{key}}</span>
+                            <md-input-container  name="myForm">
+                            <label ">{{val.type }} {{tcc.minMax(val.minimum,val.maximum)}}</label>
+                           
+                           
+                           <input  type ="{{tcc.setType(val.type)}}"  name ="myField" min="{{val.minimum}}" max="{{val.maximum}}" ng-model="param[key]"  required/>
+                           <div ng-messages="myForm.myField.$error" role="alert">
+                                <div ng-message="required">Please enter a value for this field.</div>
+                                <div ng-message="type">This field must be a valid type.</div>
+                                <div ng-message="max">This field can not exceed the max value </div>
+                                <div ng-message="min">This field can not exceed the min value </div>
+                          </div>
+                            </md-input-container>
+ 
+                                
+                            
+                        </li>
+                    </ul>
                         
-                        <md-checkbox ng-show="action.xsdParamType === 'xsd:boolean'" ng-model="param">
+                        <md-checkbox ng-show="action.xsdParamType === 'boolean'" ng-model="param">
 
                         </md-checkbox>
                         <md-button class="md-raised" ng-click="tcc.callAction(action, param)">call</md-button>
@@ -143,33 +173,64 @@
             </section>
             <br/>
 
-            <section class="md-whiteframe-2dp" flex="80">
+            <section class="md-whiteframe-2dp"  flex>
                 <md-toolbar class="md-primary">
                     <div class="md-toolbar-tools">
                         <h2>Properties</h2>
                         <span flex></span>
                         <md-button class="md-icon-button" aria-label="update state" ng-click="tcc.updateState()">
                             <md-icon>autorenew</md-icon>
-                            <md-tooltip>update all</md-tooltip>
+                            <md-too!ltip>update all</md-tooltip>
                         </md-button>
                     </div>
                 </md-toolbar>
                 <ul ng-repeat="property in tcc.selected.properties">
                     <li>{{property.name}}:
-                        <md-input-container ng-show="property.xsdType === 'xsd:string'">
-                            <label>{{property.xsdType}}</label>
-                            <input type="text" ng-model="property.value" ng-readonly="!property.writable" />
+                        <md-input-container ng-show="property.type === 'string'" name="myForm">
+                            <label>{{property.type }}</label>
+                            <input type="text" name="myField" ng-model="property.value" ng-readonly="!property.writable" />
+                            <div ng-messages="myForm.myField.$error" role="alert">
+                                
+                                <div ng-message="type">This field must be a valid type.</div>
+                                
+                          </div>
                         </md-input-container>
 
-                        <md-input-container ng-show="property.isNumeric">
-                            <label>{{property.xsdType}}</label>
-                            <input type="number" ng-model="property.value" ng-readonly="!property.writable" />
+                        <md-input-container ng-show="property.type=='number' ||property.type=='integer'" name="myForm">
+                            <label>{{property.type}}</label>
+                            <input type="number" name="myField" ng-model="property.value" ng-readonly="!property.writable" />
+                            <div ng-messages="myForm.myField.$error" role="alert">
+                                
+                                <div ng-message="type">This field must be a valid type.</div>
+                                
+                          </div>
                         </md-input-container>
-
-                        <md-checkbox type="checkbox" ng-model="property.value" ng-readonly="!property.writable" ng-show="property.xsdType === 'xsd:boolean'">
+ 
+           
+       
+                     <ul ng-show="property.type=='object'" ng-repeat="(key, val) in property.properties track by $index">
+                        <li >
+                         <span>{{key}}</span>
+                            <md-input-container  name="myForm">
+                            <label ">{{val.type }} {{tcc.minMax(val.minimum,val.maximum)}}</label>
+                           
+                           
+                           <input  type ="{{tcc.setType(val.type)}}"  name ="myField" min="{{val.minimum}}" max="{{val.maximum}}" ng-model="property.value[key]" ng-readonly="!property.writable" required/>
+                           <div ng-messages="myForm.myField.$error" role="alert">
+                                <div ng-message="required">Please enter a value for this field.</div>
+                                <div ng-message="type">This field must be a valid type.</div>
+                                <div ng-message="max">This field can not exceed the max value </div>
+                                <div ng-message="min">This field can not exceed the min value </div>
+                          </div>
+                            </md-input-container>
+ 
+                                
+                            
+                        </li>
+                    </ul>
+                        <md-checkbox type="checkbox" ng-model="property.value" ng-readonly="!property.writable" ng-show="property.type === 'boolean'">
 
                         </md-checkbox>
-
                         <md-button class="md-raised" ng-click="tcc.toggleAuto(property)">auto-</md-button>
                         <md-button class="md-raised" ng-click="tcc.readProperty(property)" ng-disabled="property.autoUpdate">update</md-button>
                         <md-button class="md-raised" ng-click="tcc.writeProperty(property)" ng-show="property.writable">set</md-button>

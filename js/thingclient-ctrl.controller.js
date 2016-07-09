@@ -5,7 +5,7 @@ angular.module("thingclient").controller('ThingClientCtrl',
             $scope.things = [];
             self.selected = {};
             self.autoReloaded = [];
-
+            
             var showRestError = function showRestError(errorObj) {
                 msg = errorObj.config.method + " to " + errorObj.config.url + " failed.<br/>";
                 msg += errorObj.status + " " + errorObj.statusText
@@ -20,6 +20,21 @@ angular.module("thingclient").controller('ThingClientCtrl',
                 self.autoReloaded.forEach(function(property) {
                     ThingClient.readProperty(property.parent, property).catch(showRestError);
                 });
+            }
+            self.minMax= function minMax(min,max){
+                if (min!= null && max!=null){
+                    return "(min="+min+",max="+max+")";
+                }
+                else return null;
+            }
+            self.setType= function setType(type){
+                if (type=="number"|| type=="integer") {
+                    return "number";
+                }
+                else if (type== "string") {
+                    return "text";
+                }
+
             }
 
             $interval(reloadAuto, 1000);
