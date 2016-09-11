@@ -25,7 +25,6 @@
     "url": "https://github.com/thingweb/thingweb-webui/issues"
   },
   "homepage": "https://github.com/thingweb/thingweb-webui#readme",
-  "dependencies": {},
   "devDependencies": {
     "del": "^2.2.0",
     "gulp": "^3.9.1",
@@ -41,6 +40,10 @@
     "gulp-uglify": "^1.5.3",
     "gulp-useref": "^3.0.8",
     "lazypipe": "^1.0.1",
-    "ng-annotate": "^1.2.1"
+    "ng-annotate": "^1.2.1",
+    "gulp-serve": "^1.2.0"
+  },
+  "dependencies": {
+    "monaco-editor": "^0.6.1"
   }
 }

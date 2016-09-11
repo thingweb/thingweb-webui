@@ -1,0 +1,19 @@
+<md-dialog flex>
+    <md-toolbar>
+        <div class="md-toolbar-tools">New Script</div>
+    </md-toolbar>
+    <md-dialog-content flex="100" layout>
+
+        <div id="container" style='width:800px;height:500px;border:1px solid grey'></div>
+        
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <md-button aria-label="Close dialog" ng-click="dialog.close()" class="md-primary">
+            Close
+        </md-button>
+        <md-button aria-label="Submit dialog" ng-click="dialog.submit()" class="md-primary">
+            Send script
+        </md-button>
+    </md-dialog-actions>
+    
+</md-dialog>

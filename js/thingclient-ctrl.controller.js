@@ -103,6 +103,29 @@ angular.module("thingclient").controller('ThingClientCtrl',
                 });
             }
 
+            self.openEditor = function openEditor($event) {
+                $mdDialog.show({
+                    clickOutsideToClose: true,
+                    controller: function($mdDialog) {
+                        // Save the clicked item
+                        this.uri = "";
+                        // Setup some handlers
+                        this.close = function() {
+                            $mdDialog.cancel();
+                        };
+                        this.submit = function() {
+                            $mdDialog.hide();
+                            var js = window.woteditor.getValue();
+                            console.log("sending: \n " + js);
+                        };
+                    },
+                    controllerAs: 'dialog',
+                    templateUrl: 'editor.html',
+                    targetEvent: $event
+                });
+                loadWoTEditor()
+            }
+
             self.addFileFromPicker = function addFileFromPicker(filePickerId) {
                 angular.element(document.querySelector('#' + filePickerId))[0].click();
             }
