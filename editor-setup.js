@@ -1,3 +1,8 @@
+/**
+ * This file is not here to stay!!!
+ * This is a temporary kludge to get stuff rolling for TPAC, the editor will be a cleaner directive later on
+ */
+
 function loadDefinition(url, name) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
