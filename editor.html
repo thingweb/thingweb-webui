@@ -1,10 +1,13 @@
 <md-dialog flex>
     <md-toolbar>
-        <div class="md-toolbar-tools">New Script</div>
+        <div class="md-toolbar-tools">New Script
+                 <span flex></span>
+                    <md-button ng-click="dialog.fixEditor()" aria-label="fix script editor">fix editor</md-button>
+                    </div>
     </md-toolbar>
     <md-dialog-content flex="100" layout>
 
-        <div id="container" style='width:800px;height:500px;border:1px solid grey'></div>
+        <div id="container" style='width:100%;height:550px;border:1px solid grey'></div>
         
     </md-dialog-content>
     <md-dialog-actions layout="row">
@@ -15,5 +18,4 @@
             Send script
         </md-button>
     </md-dialog-actions>
-    
 </md-dialog>

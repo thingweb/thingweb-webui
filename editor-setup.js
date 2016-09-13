@@ -1,8 +1,8 @@
-function loadDefinition(url, cb) {
+function loadDefinition(url, name) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
-           return cb(xhttp.responseText)
+            monaco.languages.typescript.javascriptDefaults.addExtraLib(xhttp.responseText, name ? name : url);
         }
     };
     xhttp.open("GET", url, true);
@@ -11,30 +11,41 @@ function loadDefinition(url, cb) {
 
 var promise_dts = "";
 
-function editorWithLib(libdef) {
+function loadWoTEditor() {
+    if (!angular.isDefined(window.monaco))
+        editorSetup();
+    else
+        placeEditor();
+}
 
-    require.config({ paths: { 'vs': 'node_modules/monaco-editor/min/vs' } });
-
-    require(['vs/editor/editor.main'], function (blaaa) {
-        // compiler options
-        monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
-            target: monaco.languages.typescript.ScriptTarget.ES6,
-            allowNonTsExtensions: true
-        });
-
-        monaco.languages.typescript.javascriptDefaults.addExtraLib(libdef, 'wot.d.ts');
-
-        window.woteditor = monaco.editor.create(document.getElementById('container'), {
-            value: '//enter code here\n',
+function placeEditor() {
+    var elm = document.getElementById('container');
+    if (elm === null) {
+        console.warn("WTF? why is my dom not there on re-activate");
+    } else {
+        return window.woteditor = monaco.editor.create(elm, {
+            value: '//enter the script to run here\n',
             language: 'javascript'
         });
+    }
+}
 
-        return window.woteditor;
+function loadDefinitions() {
+    // compiler options
+    monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+        target: monaco.languages.typescript.ScriptTarget.ES6,
+        allowNonTsExtensions: true
     });
+    loadDefinition('wot-all.d.ts');
+    placeEditor();
 }
 
-function loadWoTEditor() {
-    return loadDefinition('wot-all.d.ts',editorWithLib)
+function editorSetup() {
+    require.config({ paths: { 'vs': 'node_modules/monaco-editor/min/vs' } });
+
+    if (!angular.isDefined(window.monaco)) {
+        require(['vs/editor/editor.main'], loadDefinitions);
+    } else {
+        loadDefinitions();
+    }
 }
-
-

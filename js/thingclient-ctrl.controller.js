@@ -1,6 +1,6 @@
 angular.module("thingclient").controller('ThingClientCtrl',
-    ['$scope', '$interval', '$http' , '$mdSidenav', '$mdDialog', '$mdToast', 'TdParser', 'ThingClient',
-        function ThingClientCtrl($scope, $interval, $http ,$mdSidenav, $mdDialog, $mdToast, TdParser, ThingClient) {
+    ['$scope', '$interval', '$http' , '$mdSidenav', '$mdDialog', '$mdToast', '$window', 'TdParser', 'ThingClient',
+        function ThingClientCtrl($scope, $interval, $http ,$mdSidenav, $mdDialog, $mdToast, $window, TdParser, ThingClient) {
             var self = this;
             $scope.things = [];
             self.selected = {};
@@ -107,12 +107,18 @@ angular.module("thingclient").controller('ThingClientCtrl',
                 $mdDialog.show({
                     clickOutsideToClose: true,
                     controller: function($mdDialog) {
-                        // Save the clicked item
-                        this.uri = "";
+
+                        this.fixEditor = function() {
+                            loadWoTEditor();    
+                        }
+
+                        loadWoTEditor();
+
                         // Setup some handlers
                         this.close = function() {
                             $mdDialog.cancel();
                         };
+                        
                         this.submit = function() {
                             $mdDialog.hide();
                             var js = window.woteditor.getValue();
@@ -123,7 +129,7 @@ angular.module("thingclient").controller('ThingClientCtrl',
                     templateUrl: 'editor.html',
                     targetEvent: $event
                 });
-                loadWoTEditor()
+                
             }
 
             self.addFileFromPicker = function addFileFromPicker(filePickerId) {

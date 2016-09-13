@@ -83,20 +83,17 @@
 
     <div layout="column" tabIndex="-1" role="main" class="md-whiteframe-z2" flex>
         <md-toolbar layout="row" class="md-whiteframe-z1">
-            <md-button id="main" class="menu" hide-gt-sm ng-click="tcc.toggleList()" aria-label="Show User List">
+            <md-button id="main" class="menu" hide-gt-sm ng-click="tcc.toggleList()" aria-label="Show Things List">
                 <md-icon>menu</md-icon>
             </md-button>
-            <h3>Web of Things Client
-                <span ng-show="tcc.selected.name">
-          : {{tcc.selected.name}}
-        </span>
+            <h3>
+                Web of Things Client
+                <span ng-show="tcc.selected.name">: {{tcc.selected.name}}</span>
             </h3>
             <span flex></span>
-            <!-- md-button aria-label="More" class="menu" hide-gt-sm>
-        <md-icon>more_vert</md-icon>
-    </md-button-->
+                    <md-button ng-click="tcc.openEditor()">Script editor</md-button>
         </md-toolbar>
-
+        
         <md-content id="content" ng-show="tcc.selected.name" layout-margin layout="column">
 
             <section class="md-whiteframe-2dp">
@@ -237,12 +234,15 @@
 
     <!-- build:js assets/js/app.min.js -->
     <script src="js/chart.js"></script>
+    <script src="js/script-editor.directive.js"></script>
     <script src="js/chartjs-directive.js"></script>
     <script src="js/file-loader.directive.js"></script>
     <script src="js/thingclient.module.js"></script>
     <script src="js/thingclient-ctrl.controller.js"></script>
     <!-- endbuild -->
-
+    
+    <script src="node_modules/monaco-editor/min/vs/loader.js"></script>
+    <script src="editor-setup.js"></script>
 </body>
 
 </html>
