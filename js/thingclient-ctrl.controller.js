@@ -34,7 +34,9 @@ angular.module("thingclient").controller('ThingClientCtrl',
                 else if (type== "string") {
                     return "text";
                 }
-
+                else if (type== "boolean") {
+                    return "checkbox";
+                }
             }
 
             $interval(reloadAuto, 1000);
@@ -103,7 +105,7 @@ angular.module("thingclient").controller('ThingClientCtrl',
                 });
             }
 
-            self.openEditor = function openEditor($event) {
+            self.openEditor = function openEditor($event, action) {
                 $mdDialog.show({
                     clickOutsideToClose: true,
                     controller: function($mdDialog) {
@@ -122,6 +124,7 @@ angular.module("thingclient").controller('ThingClientCtrl',
                         this.submit = function() {
                             $mdDialog.hide();
                             var js = window.woteditor.getValue();
+                            $scope.param = js;
                             console.log("sending: \n " + js);
                         };
                     },

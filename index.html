@@ -123,6 +123,12 @@
                             </div>
                         </md-input-container>
 
+                        <md-input-container name="myForm" ng-show="action.xsdParamType== 'javascript' ">
+                            <md-button class="md-raised md-primary" ng-click="tcc.openEditor($event, action)">Script-Editor
+                                <md-tooltip>click to specify/modify script</md-tooltip>
+                            </md-button>
+                        </md-input-container>
+
                         <md-input-container name="myForm" ng-show="action.xsdParamType=='number'||action.xsdParamType=='integer' ">
                             <label>Parameter ({{action.xsdParamType}})</label>
                             <input type="number" name="myField" ng-model="param" />
@@ -151,7 +157,9 @@
                         <md-checkbox ng-show="action.xsdParamType === 'boolean'" ng-model="param">
 
                         </md-checkbox>
-                        <md-button class="md-raised" ng-click="tcc.callAction(action, param)">call</md-button>
+                        <md-button class="md-raised" ng-click="tcc.callAction(action, param)" aria-label="Execute action">
+                            <md-tooltip>execute action</md-tooltip>
+                            call</md-button>
                     </li>
                 </ul>
             </section>
@@ -164,7 +172,7 @@
                         <span flex></span>
                         <md-button class="md-icon-button" aria-label="update state" ng-click="tcc.updateState()">
                             <md-icon>autorenew</md-icon>
-                            <md-too!ltip>update all</md-tooltip>
+                            <md-tooltip>update all</md-tooltip>
                         </md-button>
                     </div>
                 </md-toolbar>
