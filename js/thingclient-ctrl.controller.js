@@ -7,8 +7,13 @@ angular.module("thingclient").controller('ThingClientCtrl',
             self.autoReloaded = [];
             
             var showRestError = function showRestError(errorObj) {
-                msg = errorObj.config.method + " to " + errorObj.config.url + " failed.<br/>";
-                msg += errorObj.status + " " + errorObj.statusText
+                if(errorObj.config) {
+                    msg = errorObj.config.method + " to " + errorObj.config.url + " failed.<br/>";
+                    msg += errorObj.status + " " + errorObj.statusText
+                } else {
+                    msg = JSON.stringify(errorObj);
+                }
+                
                 showError(msg);
             }
 

@@ -24,7 +24,7 @@
         return directive;
 
         function link(scope, elements, attrs) {
-            var editor = $window.monaco.editor.create(document.getElementById("container2"), {
+            var editor = $window.monaco.editor.create(elements[0], {
                 value: [
                     'function x() {',
                     '\tconsole.log("Hello world!");',

@@ -67,17 +67,44 @@ declare class Promise <R> implements Thenable <R> {
    */
   static race <R> (promises: (R | Thenable<R>)[]): Promise<R>;
 }
+
+
 interface WoTFactory {
-    discover(discoveryType : string, filter : Object)
+    /**
+     * Discover Things  
+     * 
+     * @param discoveryType identifier of the type of discovery (e.g. local or repository)
+     */
+    discover(discoveryType : string, filter : Object) : Promise<ConsumedThing>
+    /**
+     * consume a thing description by URI and return a client representation object
+     */
     consumeDescriptionUri(uri: string): Promise<ConsumedThing>
+    /**
+     * consume a thing description from an object and return a client representation object
+     */
     consumeDescription(thingDescription : Object): Promise<ConsumedThing>
-    createThing(name: string): DynamicThing
+    /**
+     * create a new Thing
+     */
+    createThing(name: string): Promise<DynamicThing>
+    /**
+     * create a new Thing based on a thing description, given by a URI
+     */
     createFromDescriptionUri(uri: string): Promise<ExposedThing>
+    /**
+     * create a new Thing based on a thing description, given by an object
+     */
     createFromDescription(thingDescription : Object): Promise<ExposedThing>
+
+    /** PROPIETARY WORKAROUND - Java's Nashorn does not support setInterval */
+    setInterval(handler : any, timeout : number)
 }
 
 interface ConsumedThing {
+    /** name of the Thing */
     name : string
+    /** invokes an action on the target thing */
     invokeAction(actionName : string, parameter? : any) : Promise<any>
     setProperty(propertyName : string, newValue : any) : Promise<any>
     getProperty(propertyName : string) : Promise<any>
@@ -88,6 +115,7 @@ interface ConsumedThing {
 }
 
 interface ExposedThing {
+    /** name of the Thing */
     name : string
     invokeAction(actionName : string, parameter? : any) : any
     setProperty(propertyName : string, newValue : any) : ExposedThing
@@ -103,10 +131,11 @@ interface ExposedThing {
 interface DynamicThing extends ExposedThing {
     addProperty(propertyName : string, valueType : Object) : DynamicThing
     addAction(actionName : string, inputType? : Object, outputType? : Object) : DynamicThing
-    addEvent(eventName : string)
+    addEvent(eventName : string) : DynamicThing
     removeProperty(propertyName : string) : boolean
     removeAction(actionName : string) : boolean
     removeEvent(eventName : string) : boolean
 }
 
+/** Entry point for WoT APIs */
 declare var WoT : WoTFactory;
